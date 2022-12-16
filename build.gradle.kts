@@ -1,6 +1,6 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
-val kotlinVersion = "1.7.20-Beta"
+val kotlinVersion = "1.7.21"
 val serializationVersion = "1.3.3"
 val ktorVersion = "2.0.3"
 val logbackVersion = "1.2.11"
@@ -8,9 +8,11 @@ val kotlinWrappersVersion = "1.0.0-pre.354"
 val kmongoVersion = "4.5.0"
 
 plugins {
-    kotlin("multiplatform") version "1.7.20-Beta"
+    kotlin("multiplatform") version "1.7.21" // This is the Gradle plugin to enable Kotlin multiplatform.
     application //to run JVM part
-    kotlin("plugin.serialization") version "1.7.20-Beta"
+    kotlin("plugin.serialization") version "1.7.21" // This gradle plugin provides the multiplatform conversions between
+                                                         // Kotlin objects and their JSON text representation, however it can
+                                                         // be used for other format representations.
 }
 
 group = "org.example"
@@ -22,13 +24,19 @@ repositories {
 
 kotlin {
     jvm {
-        withJava()
+        withJava() // This holds the targets which are basically the same as the ones you saw when
+                   // doing the `make` building tool you used when building Java programs at school.
+                   // This target is for the jvm(server) side of the tutorial.
     }
+    // The js target below is the client build target.
     js {
         browser {
             binaries.executable()
         }
     }
+    // The Kotlin source sets are a collection of Kotlin sources and their resources, dependencies, and
+    // language settings that belong to one or more targets. You use them to set up platform-specific
+    // and common dependency blocks. Each source set corresponds to a folder in the `src` directory.
     sourceSets {
         val commonMain by getting {
             dependencies {
